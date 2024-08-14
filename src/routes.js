@@ -20,10 +20,8 @@ router.addDefaultHandler(async ({ enqueueLinks, log }) => {
     //     strategy: 'all'
     // });
     await enqueueLinks({
+        urls: ['https://loigiaihay.com/bai-5-on-tap-va-ke-chuyen-trang-22-sgk-tieng-viet-lop-1-tap-1-ket-noi-tri-thuc-voi-cuoc-song-a120852.html', 'https://loigiaihay.com/bai-5-on-tap-va-ke-chuyen-trang-18-sgk-tieng-viet-lop-1-tap-1-chan-troi-sang-tao-a121112.html', 'https://loigiaihay.com/bai-1-a-c-trang-6-sgk-tieng-viet-lop-1-tap-1-canh-dieu-a132756.html'],
         label: 'detail',
-        userData: {
-            depth: 10
-        }
     });
 });
 
@@ -54,7 +52,7 @@ function getCleanText(htmlString) {
 }
 
 router.addHandler('detail', async ({ request, page, log }) => {
-    const title = await page.title();
+
     log.info(`${title}`, { url: request.loadedUrl });
     const hasListCategories = await page.$('#list-categories') !== null;
 
@@ -78,6 +76,7 @@ router.addHandler('detail', async ({ request, page, log }) => {
         }
         await page.goto(link);
         let classExists = await page.$$('.top-title');
+        let title = await page.title();
         if (classExists.length == 1) {
             let topTitle = classExists[0];
 
