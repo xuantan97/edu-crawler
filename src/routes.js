@@ -29,31 +29,30 @@ function getCleanText(htmlString) {
     // Remove all script and style tags and their content
     let cleanText = htmlString.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
     cleanText = cleanText.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
-    
+
     // Remove all HTML tags
     cleanText = cleanText.replace(/<\/?[^>]+(>|$)/g, '');
-    
+
     // Replace multiple spaces, tabs, and newlines with a single space
     cleanText = cleanText.replace(/\s+/g, ' ').trim();
-    
+
     // Replace multiple spaces and tabs with a single space
     // cleanText = cleanText.replace(/[ \t]+/g, ' ');
     // cleanText = cleanText.replace(/ {2,}/g, ' ');
-    
+
     // Replace multiple newlines with a single newline
     // cleanText = cleanText.replace(/[\r\n]+/g, '\n');
-    
+
     // Remove block comments (/* */)
     cleanText = cleanText.replace(/\/\*[\s\S]*?\*\//g, '');
     cleanText = cleanText.replace(/var\s+\w+\s*=\s*[^;]*;/g, '');
     cleanText = cleanText.replace(/function\s+\w+\s*\([\s\S]*?\}\s*/g, '');
-    
+
     return cleanText;
 }
 
 router.addHandler('detail', async ({ request, page, log }) => {
 
-    log.info(`${title}`, { url: request.loadedUrl });
     const hasListCategories = await page.$('#list-categories') !== null;
 
     if (!hasListCategories) {
@@ -77,6 +76,7 @@ router.addHandler('detail', async ({ request, page, log }) => {
         await page.goto(link);
         let classExists = await page.$$('.top-title');
         let title = await page.title();
+        log.info(`${title}`, { url: request.loadedUrl });
         if (classExists.length == 1) {
             let topTitle = classExists[0];
 
